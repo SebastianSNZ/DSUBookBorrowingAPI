@@ -12,14 +12,12 @@ public class CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
-    public ArrayList<Customer> getCustomer(){
+    public ArrayList<Customer> getCustomer() {
         return (ArrayList<Customer>) customerRepository.findAll();
     }
 
-    public Customer setCustomer(Customer customer){
+    public Customer setCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
-
-
 
 }
