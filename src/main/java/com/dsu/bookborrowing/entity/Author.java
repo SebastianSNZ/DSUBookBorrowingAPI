@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,8 +12,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Book {
 
+public class Author {
     @Id
     @SequenceGenerator(
             name = "author_sequence",
@@ -25,14 +24,11 @@ public class Book {
             strategy = GenerationType.SEQUENCE,
             generator = "author_sequence"
     )
-    private Long book_id;
+
+    private Long author_id;
     private String name;
-    private String category;
-    private Integer quantity;
 
-
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "author")
     private List<Author_book> author_books;
-
 
 }
