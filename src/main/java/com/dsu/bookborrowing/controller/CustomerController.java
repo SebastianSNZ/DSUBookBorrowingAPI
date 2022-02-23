@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/customer")
@@ -25,6 +26,26 @@ public class CustomerController {
     @PostMapping
     public  Customer setCustomer(@RequestBody Customer customer){
         return  customerService.setCustomer(customer);
+    }
+
+    @GetMapping(path = "/{id}")
+    public Optional<Customer> getById(@PathVariable("id") Integer id){
+        return  customerService.getById(id);
+    }
+
+    @GetMapping("/query")
+    ArrayList<Customer> getByRol(@RequestParam("rol") Integer id){
+        return customerService.getByRol(id);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public String deleteById(@PathVariable("id") Integer id){
+        boolean ok = customerService.deleteCustomer(id);
+        if(ok){
+            return "Se elimino usuario con id " + id;
+        }else{
+            return "No se ha podido eliminar usuario con id " + id;
+        }
     }
 
 
