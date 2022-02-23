@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("/v1/Author_book")
+@RequestMapping("/v1/authorBook")
 public class Author_bookController {
     @Autowired
     Author_bookService author_bookService;

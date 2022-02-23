@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class AuthorService {
@@ -13,11 +14,33 @@ public class AuthorService {
     @Autowired
     AuthorRepository authorRepository;
 
-    public ArrayList<Author>  getAuthors(){
+    public ArrayList<Author> getAuthors() {
         return (ArrayList<Author>) authorRepository.findAll();
     }
 
-    public Author setAuthor(Author author){
+    public Author setAuthor(Author author) {
         return authorRepository.save(author);
     }
+
+    public Optional<Author> getById(Integer id) {
+        return authorRepository.findById(id);
+    }
+
+
+    public boolean deleteAuthor(Integer id) {
+        try {
+            authorRepository.deleteById(id);
+            return true;
+        } catch (Exception err) {
+            return false;
+        }
+    }
+
+    public Author updateAuthor(Author author) {
+        if (author.getAuthor_id() == null || !authorRepository.existsById(author.getAuthor_id())) {
+            return null;
+        }
+        return authorRepository.save(author);
+    }
+
 }

@@ -16,22 +16,16 @@ import java.util.List;
 public class Book {
 
     @Id
-    @SequenceGenerator(
-            name = "author_sequence",
-            sequenceName = "author_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "author_sequence"
-    )
-    private Long book_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(unique = true, nullable = false)
+    private Integer book_id;
     private String name;
     private String category;
     private Integer quantity;
 
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book" , cascade = CascadeType.REMOVE)
     private List<Author_book> author_books;
 
 

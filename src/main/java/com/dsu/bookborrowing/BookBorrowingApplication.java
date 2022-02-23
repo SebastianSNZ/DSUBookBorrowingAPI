@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @SpringBootApplication
 public class BookBorrowingApplication {
 
-	private static final Logger logger = LoggerFactory.getLogger(BookBorrowingApplication.class);
+	public static final Logger logger = LoggerFactory.getLogger(BookBorrowingApplication.class);
 	public static void main(String[] args) {
 		SpringApplication.run(BookBorrowingApplication.class, args);
 
