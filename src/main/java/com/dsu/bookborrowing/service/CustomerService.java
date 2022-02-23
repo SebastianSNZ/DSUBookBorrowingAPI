@@ -38,4 +38,8 @@ public class CustomerService {
         }
     }
 
+    public Customer updateCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
 }
