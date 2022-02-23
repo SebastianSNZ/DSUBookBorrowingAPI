@@ -18,7 +18,7 @@ public class RolModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_rol", unique = true, nullable = false)
-    private Integer id_rol;
+    private Integer id;
     private String rol;
 
 
