@@ -22,8 +22,10 @@ public class Customer{
     @Column(unique = true, nullable = false)
     private Integer customer_id;
 
+    @Column(name="username", unique = true, nullable = false)
     private String username;
 
+    @Column(name="name", nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,5 +33,6 @@ public class Customer{
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private RolModel rol;
 
+    @Column(name="cellphone")
     private Integer cellphone;
 }
