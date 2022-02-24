@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Long> {
-    Optional<Book> findById(@Param("book_id") Long id);
+public interface BookRepository extends JpaRepository<Book, Integer> {
+    Optional<Book> findById(@Param("book_id") Integer id);
 }

@@ -24,14 +24,14 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public Optional<Book> getBookById(Long id) {
+    public Optional<Book> getBookById(Integer id) {
        return bookRepository.findById(id);
     }
     public Optional<Book> getById(Integer id) {
         return bookRepository.findById(id);
     }
 
-    public boolean updateBookByAddingReservation(Long id) {
+    public boolean updateBookByAddingReservation(Integer id) {
         Optional<Book> bookOptional = getBookById(id);
         if (bookOptional.isEmpty()) {
             return false;
