@@ -27,4 +27,21 @@ public class ReservationController {
     public Reservation addReservation(@RequestBody Reservation reservation) {
         return reservationService.addNewReservation(reservation);
     }
+
+    @PutMapping("/extension")
+    public Reservation addReservationExtension(@RequestBody Reservation reservation) {
+        return reservationService.addReservationExtension(reservation);
+    }
+
+    @PutMapping("/return")
+    public Reservation addReservationReturn(@RequestBody Reservation reservation) {
+        return reservationService.addReturn(reservation);
+    }
+
+    @DeleteMapping()
+    public Reservation deleteReservation(@RequestBody Reservation reservation) {
+        return reservationService.deleteReservation(reservation);
+    }
+
 }
+
