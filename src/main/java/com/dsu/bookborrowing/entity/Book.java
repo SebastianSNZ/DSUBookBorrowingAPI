@@ -1,5 +1,6 @@
 package com.dsu.bookborrowing.entity;
 
+import com.dsu.bookborrowing.DTO.BookDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,23 +17,22 @@ import java.util.List;
 public class Book {
 
     @Id
-    @SequenceGenerator(
-            name = "author_sequence",
-            sequenceName = "author_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "author_sequence"
-    )
-    private Long book_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(unique = true, nullable = false)
+    private Integer book_id;
     private String name;
     private String category;
     private Integer quantity;
 
+    public Book(BookDTO bookDTO) {
+        name = bookDTO.getName();
+        category = bookDTO.getCategory();
+        quantity = bookDTO.getQuantity();
+    }
 
-    @OneToMany(mappedBy = "book")
-    private List<Author_book> author_books;
+//    @OneToMany(mappedBy = "book" , cascade = CascadeType.REMOVE)
+//    private List<Author_book> author_books;
 
 
 }

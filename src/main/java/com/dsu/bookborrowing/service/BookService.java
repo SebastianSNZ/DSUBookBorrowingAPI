@@ -1,10 +1,12 @@
 package com.dsu.bookborrowing.service;
 
+import com.dsu.bookborrowing.DTO.BookDTO;
 import com.dsu.bookborrowing.entity.Book;
 import com.dsu.bookborrowing.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -14,16 +16,19 @@ public class BookService {
     @Autowired
     BookRepository bookRepository;
 
-    public ArrayList<Book> getBooks(){
+    public ArrayList<Book> getBooks() {
         return (ArrayList<Book>) bookRepository.findAll();
     }
 
-    public Book setBook(Book book){
+    public Book setBook(Book book) {
         return bookRepository.save(book);
     }
 
     public Optional<Book> getBookById(Long id) {
        return bookRepository.findById(id);
+    }
+    public Optional<Book> getById(Integer id) {
+        return bookRepository.findById(id);
     }
 
     public boolean updateBookByAddingReservation(Long id) {
@@ -41,4 +46,28 @@ public class BookService {
     }
 
 
+
+    public boolean deleteBook(Integer id) {
+        try {
+            bookRepository.deleteById(id);
+            return true;
+        } catch (Exception err) {
+            return false;
+        }
+    }
+
+
+    public Book updateBook(Book book) {
+        if (book.getBook_id() == null || !bookRepository.existsById(book.getBook_id()))
+            return null;
+        return bookRepository.save(book);
+    }
+
+    public ArrayList<BookDTO> getBooksDTO() {
+        ArrayList<Book> arrBook = (ArrayList<Book>) bookRepository.findAll();
+        ArrayList<BookDTO> arr = new ArrayList<>(arrBook.size());
+        for (Book bk : arrBook)
+            arr.add(new BookDTO(bk));
+        return arr;
+    }
 }

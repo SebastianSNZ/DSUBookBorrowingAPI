@@ -12,8 +12,8 @@ import java.io.Serializable;
 @Getter
 @EqualsAndHashCode
 public class Author_book_keys implements Serializable {
-    private Integer book_id;
-    private Integer author_id;
+    private Integer book;
+    private Integer author;
 
 
 }
