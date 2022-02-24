@@ -1,10 +1,12 @@
 package com.dsu.bookborrowing.service;
 
+import com.dsu.bookborrowing.DTO.AuthorDTO;
 import com.dsu.bookborrowing.entity.Author;
 import com.dsu.bookborrowing.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -26,6 +28,21 @@ public class AuthorService {
         return authorRepository.findById(id);
     }
 
+
+    public ArrayList<AuthorDTO> getAuthorsNames() {
+        ArrayList<Author> arr = (ArrayList<Author>) authorRepository.findAll();
+
+
+
+        ArrayList<AuthorDTO> arrDtro = new ArrayList<>(arr.size());
+
+
+        for(Author auth : arr){
+            arrDtro.add( new AuthorDTO(auth));
+        }
+
+        return arrDtro;
+    }
 
     public boolean deleteAuthor(Integer id) {
         try {
