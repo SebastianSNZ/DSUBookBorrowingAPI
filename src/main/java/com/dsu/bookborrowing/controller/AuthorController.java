@@ -22,8 +22,8 @@ public class AuthorController {
     }
 
     @PostMapping
-    public Author setAuthor(@RequestBody Author author) {
-        return authorService.setAuthor(author);
+    public Author setAuthor(@RequestBody AuthorDTO author) {
+        return authorService.setAuthor(new Author(author));
     }
 
     @GetMapping(path = "/{id}")

@@ -1,5 +1,6 @@
 package com.dsu.bookborrowing.entity;
 
+import com.dsu.bookborrowing.DTO.BookDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,11 @@ public class Book {
     private String category;
     private Integer quantity;
 
+    public Book(BookDTO bookDTO) {
+        name = bookDTO.getName();
+        category = bookDTO.getCategory();
+        quantity = bookDTO.getQuantity();
+    }
 
 //    @OneToMany(mappedBy = "book" , cascade = CascadeType.REMOVE)
 //    private List<Author_book> author_books;

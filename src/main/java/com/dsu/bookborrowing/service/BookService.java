@@ -1,10 +1,12 @@
 package com.dsu.bookborrowing.service;
 
+import com.dsu.bookborrowing.DTO.BookDTO;
 import com.dsu.bookborrowing.entity.Book;
 import com.dsu.bookborrowing.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -38,12 +40,16 @@ public class BookService {
 
 
     public Book updateBook(Book book) {
-        if(book.getBook_id() == null)
+        if (book.getBook_id() == null || !bookRepository.existsById(book.getBook_id()))
             return null;
-        if (bookRepository.existsById(book.getBook_id())) {
-            return bookRepository.save(book);
-        }
-        return null;
+        return bookRepository.save(book);
     }
 
+    public ArrayList<BookDTO> getBooksDTO() {
+        ArrayList<Book> arrBook = (ArrayList<Book>) bookRepository.findAll();
+        ArrayList<BookDTO> arr = new ArrayList<>(arrBook.size());
+        for (Book bk : arrBook)
+            arr.add(new BookDTO(bk));
+        return arr;
+    }
 }

@@ -1,5 +1,7 @@
 package com.dsu.bookborrowing.controller;
 
+import com.dsu.bookborrowing.DTO.AuthorDTO;
+import com.dsu.bookborrowing.DTO.BookDTO;
 import com.dsu.bookborrowing.entity.Author;
 import com.dsu.bookborrowing.entity.Author_book;
 import com.dsu.bookborrowing.entity.Book;
@@ -33,7 +35,7 @@ public class Author_bookController {
     }
 
     @GetMapping("/AuthorsByBook")
-    ArrayList<Author_book> getByBook(@RequestParam("book") Integer id) {
+    ArrayList<AuthorDTO> getByBook(@RequestParam("book") Integer id) {
 
 //        ArrayList<Author_book> arrAuth_book = author_bookService.getAuthorsByBook(new Book(id, "", "", 0));
 //
@@ -45,7 +47,7 @@ public class Author_bookController {
     }
 
     @GetMapping("/booksByAuthor")
-    ArrayList<Author_book> getByAuthor(@RequestParam("author") Integer id) {
+    ArrayList<BookDTO> getByAuthor(@RequestParam("author") Integer id) {
         return author_bookService.getBooksByAuthor(new Author(id, ""));
     }
 
