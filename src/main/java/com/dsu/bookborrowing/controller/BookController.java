@@ -31,21 +31,28 @@ public class BookController {
 
     @PostMapping
     public Book setBook(@RequestBody Book book){
+
+        logger.info("Creating a new book");
         return bookService.setBook(book);
     }
 
     @GetMapping(path = "/{id}")
     public Optional<Book> getById(@PathVariable("id") Integer id){
+
+        logger.info("Searching a book by id");
         return  bookService.getById(id);
     }
 
 
     @DeleteMapping(path = "/{id}")
     public String deleteById(@PathVariable("id") Integer id){
+        logger.info("Trying to delete the book " + id);
         boolean ok = bookService.deleteBook(id);
         if(ok){
+            logger.info("Book with id " + id + " was removed");
             return "Book with id  " + id  + " was removed";
         }else{
+            logger.warn("Book with id " + id + " could not removed.");
             return "Book with id " + id + " could not removed";
         }
     }
