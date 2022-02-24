@@ -16,21 +16,19 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(Author_book_keys.class)
 public class Author_book {
 
-    @EmbeddedId
-    Author_book_keys id;
-
-    @ManyToOne
-    @MapsId( "book_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn( name = "book_id")
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Book book;
 
-    @ManyToOne
-    @MapsId( "author_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn( name = "author_id")
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Author author;
 
 }

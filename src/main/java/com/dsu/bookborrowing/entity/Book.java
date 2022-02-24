@@ -25,8 +25,8 @@ public class Book {
     private Integer quantity;
 
 
-    @OneToMany(mappedBy = "book" , cascade = CascadeType.REMOVE)
-    private List<Author_book> author_books;
+//    @OneToMany(mappedBy = "book" , cascade = CascadeType.REMOVE)
+//    private List<Author_book> author_books;
 
 
 }

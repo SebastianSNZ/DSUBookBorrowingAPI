@@ -24,7 +24,7 @@ public class BookController {
 
     @GetMapping
     public ArrayList<Book>  getBooks(){
-        logger.info("entered to  getBooks");
+        logger.info("entered to getBooks");
 
         return bookService.getBooks();
     }

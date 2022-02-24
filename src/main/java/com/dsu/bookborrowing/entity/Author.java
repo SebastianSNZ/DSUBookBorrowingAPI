@@ -30,7 +30,7 @@ public class Author {
     private Integer author_id;
     private String name;
 
-    @OneToMany(mappedBy = "author" , cascade = CascadeType.REMOVE)
-    private List<Author_book> author_books;
+//    @OneToMany(mappedBy = "author" , cascade = CascadeType.REMOVE)
+//    private List<Author_book> author_books;
 
 }
