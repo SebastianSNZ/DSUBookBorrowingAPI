@@ -1,15 +1,18 @@
 package com.dsu.bookborrowing.entity;
 
+import com.dsu.bookborrowing.DTO.ReservationDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
-
 @Entity
 @Table(name = "reservation")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +34,14 @@ public class Reservation {
     private LocalDate returnDate;
     private Double penalty = 0.0;
     private Integer status = 0;
+
+
+    public Reservation(ReservationDTO reservationDTO) {
+        this.setId(reservationDTO.getId());
+        this.setBook(new Book());
+        this.getBook().setBook_id(reservationDTO.getBookId());
+        this.setCustomer(new Customer());
+        this.getCustomer().setId(reservationDTO.getCustomerId());
+        this.setEstimatedDate(reservationDTO.getEstimatedDate());
+    }
 }

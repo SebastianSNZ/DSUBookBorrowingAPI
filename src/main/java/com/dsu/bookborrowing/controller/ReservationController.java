@@ -1,5 +1,6 @@
 package com.dsu.bookborrowing.controller;
 
+import com.dsu.bookborrowing.DTO.ReservationDTO;
 import com.dsu.bookborrowing.entity.Reservation;
 import com.dsu.bookborrowing.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +20,28 @@ public class ReservationController {
     }
 
     @GetMapping
-    public List<Reservation> getReservations() {
-        return reservationService.getReservations();
+    public List<ReservationDTO> getReservations() {
+        return ReservationDTO.convertListToDTO(reservationService.getReservations());
     }
 
     @PostMapping
-    public Reservation addReservation(@RequestBody Reservation reservation) {
-        return reservationService.addNewReservation(reservation);
+    public ReservationDTO addReservation(@RequestBody ReservationDTO reservationDTO) {
+        return new ReservationDTO(reservationService.addNewReservation(new Reservation(reservationDTO)));
     }
 
     @PutMapping("/extension")
-    public Reservation addReservationExtension(@RequestBody Reservation reservation) {
-        return reservationService.addReservationExtension(reservation);
+    public ReservationDTO addReservationExtension(@RequestBody ReservationDTO reservationDTO) {
+        return new ReservationDTO(reservationService.addReservationExtension(new Reservation(reservationDTO)));
     }
 
     @PutMapping("/return")
-    public Reservation addReservationReturn(@RequestBody Reservation reservation) {
-        return reservationService.addReturn(reservation);
+    public ReservationDTO addReservationReturn(@RequestBody ReservationDTO reservationDTO) {
+        return new ReservationDTO(reservationService.addReturn(new Reservation(reservationDTO)));
     }
 
     @DeleteMapping()
-    public Reservation deleteReservation(@RequestBody Reservation reservation) {
-        return reservationService.deleteReservation(reservation);
+    public  ReservationDTO deleteReservation(@RequestBody ReservationDTO reservationDTO) {
+        return new ReservationDTO(reservationService.deleteReservation(new Reservation(reservationDTO)));
     }
 
 }
