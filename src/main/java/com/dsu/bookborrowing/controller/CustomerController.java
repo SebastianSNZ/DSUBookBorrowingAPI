@@ -7,7 +7,9 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,15 +18,15 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 public class CustomerController {
     @Autowired
-    CustomerService customerService;
+    private CustomerService customerService;
 
     @GetMapping()
-    public ArrayList<Customer> getCustomer(){
-        return  customerService.getCustomer();
+    public List<Customer> getCustomer(){
+        return customerService.getCustomer();
     }
 
     @PostMapping
-    public  Customer setCustomer(@RequestBody Customer customer){
+    public Customer setCustomer(@RequestBody @Valid Customer customer){
         return  customerService.setCustomer(customer);
     }
 
