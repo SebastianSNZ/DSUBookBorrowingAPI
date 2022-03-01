@@ -30,9 +30,16 @@ public class Author {
 
     private Integer author_id;
     private String name;
+    private String lastName;
+    private String direction;
+    private Integer cellphone;
+
 
     public Author(AuthorDTO authorDTO){
         name = authorDTO.getName();
+        lastName = authorDTO.getLastName();
+        direction = authorDTO.getDirection();
+        cellphone = authorDTO.getCellphone();
     }
 
 

@@ -2,11 +2,15 @@ package com.dsu.bookborrowing.controller;
 
 
 import com.dsu.bookborrowing.BookBorrowingApplication;
+import com.dsu.bookborrowing.DTO.AuthorDTO;
 import com.dsu.bookborrowing.DTO.BookDTO;
 import com.dsu.bookborrowing.entity.Author;
 import com.dsu.bookborrowing.entity.Book;
 import com.dsu.bookborrowing.entity.Customer;
 import com.dsu.bookborrowing.service.BookService;
+import io.swagger.annotations.Api;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/book")
+
+@Api(value = "API Rest BOOK")
+@CrossOrigin(origins = "*")
 public class BookController {
     private static final Logger logger = BookBorrowingApplication.logger;
 
@@ -67,6 +74,5 @@ public class BookController {
         logger.info("updating the book with id " + book.getBook_id()) ;
         return bookService.updateBook(book);
     }
-
 
 }

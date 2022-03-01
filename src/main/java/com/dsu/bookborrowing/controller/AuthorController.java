@@ -3,6 +3,7 @@ package com.dsu.bookborrowing.controller;
 import com.dsu.bookborrowing.DTO.AuthorDTO;
 import com.dsu.bookborrowing.entity.Author;
 import com.dsu.bookborrowing.service.AuthorService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/author")
+
+@Api(value = "API Rest Author")
+@CrossOrigin(origins = "*")
 public class AuthorController {
 
     @Autowired

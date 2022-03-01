@@ -1,8 +1,11 @@
 package com.dsu.bookborrowing.service;
 
 import com.dsu.bookborrowing.DTO.BookDTO;
+import com.dsu.bookborrowing.DTO.ReservationDTO;
 import com.dsu.bookborrowing.entity.Book;
 import com.dsu.bookborrowing.repository.BookRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,9 @@ public class BookService {
 
     @Autowired
     BookRepository bookRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public ArrayList<Book> getBooks() {
         return (ArrayList<Book>) bookRepository.findAll();
@@ -67,7 +73,16 @@ public class BookService {
         ArrayList<Book> arrBook = (ArrayList<Book>) bookRepository.findAll();
         ArrayList<BookDTO> arr = new ArrayList<>(arrBook.size());
         for (Book bk : arrBook)
-            arr.add(new BookDTO(bk));
+            arr.add(converToDTO(bk));
         return arr;
     }
+
+
+    public BookDTO converToDTO(Book bk){
+        if(!modelMapper.getConfiguration().getMatchingStrategy().equals(MatchingStrategies.LOOSE)){
+            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        }
+        return modelMapper.map(bk, BookDTO.class);
+    }
+
 }

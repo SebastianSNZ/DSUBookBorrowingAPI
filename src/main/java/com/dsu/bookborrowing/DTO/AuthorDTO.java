@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 public class AuthorDTO {
 
     private String name;
+    private String lastName;
+    private String direction;
+    private Integer cellphone;
 
-    public AuthorDTO(Author au){
-        name = au.getName();
-    }
+
 }

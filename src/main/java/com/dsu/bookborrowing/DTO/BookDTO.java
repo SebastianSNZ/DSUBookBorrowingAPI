@@ -14,10 +14,5 @@ public class BookDTO {
     private String category;
     private Integer quantity;
 
-    public BookDTO(Book bk){
-        name = bk.getName();
-        category = bk.getCategory();
-        quantity = bk.getQuantity(); 
-    }
 
 }

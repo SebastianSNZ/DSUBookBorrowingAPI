@@ -2,8 +2,11 @@ package com.dsu.bookborrowing.service;
 
 import com.dsu.bookborrowing.BookBorrowingApplication;
 import com.dsu.bookborrowing.DTO.AuthorDTO;
+import com.dsu.bookborrowing.DTO.BookDTO;
 import com.dsu.bookborrowing.entity.Author;
 import com.dsu.bookborrowing.repository.AuthorRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,10 @@ public class AuthorService {
 
     @Autowired
     AuthorRepository authorRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     public ArrayList<Author> getAuthors() {
         logger.info("Getting all the authors");
@@ -41,7 +48,7 @@ public class AuthorService {
         ArrayList<Author> arr = (ArrayList<Author>) authorRepository.findAll();
         ArrayList<AuthorDTO> arrDtro = new ArrayList<>(arr.size());
         for (Author auth : arr)
-            arrDtro.add(new AuthorDTO(auth));
+            arrDtro.add(convertToDTO(auth));
         return arrDtro;
     }
 
@@ -59,4 +66,11 @@ public class AuthorService {
                 ? null : authorRepository.save(author);
     }
 
+
+    public AuthorDTO convertToDTO(Author au){
+        if(!modelMapper.getConfiguration().getMatchingStrategy().equals(MatchingStrategies.LOOSE)){
+            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        }
+        return modelMapper.map(au, AuthorDTO.class);
+    }
 }

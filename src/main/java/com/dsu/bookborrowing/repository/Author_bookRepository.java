@@ -1,9 +1,6 @@
 package com.dsu.bookborrowing.repository;
 
-import com.dsu.bookborrowing.entity.Author;
-import com.dsu.bookborrowing.entity.Author_book;
-import com.dsu.bookborrowing.entity.Book;
-import com.dsu.bookborrowing.entity.Customer;
+import com.dsu.bookborrowing.entity.*;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 
 @Repository
-public interface Author_bookRepository extends CrudRepository<Author_book, Integer> {
+public interface Author_bookRepository extends CrudRepository<Author_book, Author_book_keys> {
 
 
     ArrayList<Author_book> findBooksByAuthor(@Param("author") Author auth);

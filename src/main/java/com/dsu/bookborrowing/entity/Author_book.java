@@ -20,13 +20,13 @@ import javax.persistence.*;
 public class Author_book {
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Book book;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Author author;
