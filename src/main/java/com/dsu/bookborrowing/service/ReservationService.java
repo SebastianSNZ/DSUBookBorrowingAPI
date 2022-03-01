@@ -4,6 +4,7 @@ import com.dsu.bookborrowing.entity.Book;
 import com.dsu.bookborrowing.entity.Customer;
 import com.dsu.bookborrowing.entity.Reservation;
 import com.dsu.bookborrowing.repository.ReservationRepository;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +14,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Setter
 public class ReservationService {
-    private final ReservationRepository reservationRepository;
-    private final CustomerService customerService;
-    private final BookService bookService;
 
     @Autowired
-    public ReservationService(ReservationRepository reservationRepository, CustomerService customerService, BookService bookService) {
-        this.reservationRepository = reservationRepository;
-        this.customerService = customerService;
-        this.bookService = bookService;
-    }
+    private ReservationRepository reservationRepository;
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private BookService bookService;
+
 
     public List<Reservation> getReservations() {
         List<Reservation> reservationsToUpdate = reservationRepository.findByStatusNotAndStatusNot(3, 4);

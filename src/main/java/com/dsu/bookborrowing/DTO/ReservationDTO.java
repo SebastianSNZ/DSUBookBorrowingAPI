@@ -24,26 +24,4 @@ public class ReservationDTO {
     private Double penalty;
     private Integer status;
 
-    public ReservationDTO(Reservation reservation) {
-        this.setId(reservation.getId());
-        this.setBookId(reservation.getBook().getBook_id());
-        this.setBookName(reservation.getBook().getName());
-        this.setCustomerId(reservation.getCustomer().getId());
-        this.setCustomerName(reservation.getCustomer().getName());
-        this.setReservationDate(reservation.getReservationDate());
-        this.setEstimatedDate(reservation.getEstimatedDate());
-        this.setReturnDate(reservation.getReturnDate());
-        this.setPenalty(reservation.getPenalty());
-        this.setStatus(reservation.getStatus());
-    }
-
-    public static List<ReservationDTO> convertListToDTO(List<Reservation> reservationList) {
-        List<ReservationDTO> dtoList = new ArrayList<>();
-        for (Reservation reservation: reservationList) {
-            dtoList.add(new ReservationDTO(reservation));
-        }
-        return dtoList;
-    }
-
-
 }
