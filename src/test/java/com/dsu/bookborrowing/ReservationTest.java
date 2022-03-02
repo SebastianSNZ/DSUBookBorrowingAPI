@@ -24,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -262,7 +263,7 @@ public class ReservationTest {
         this.reservationService.setReservationRepository(reservationMockRepository);
 
         //when
-        Mockito.when(reservationMockRepository.getById(reservation1.getId())).thenReturn(reservation2);
+        Mockito.when(reservationMockRepository.findById(reservation1.getId())).thenReturn(Optional.of(reservation2));
         Mockito.when(reservationMockRepository.save(reservation2)).thenReturn(reservation2);
 
         Reservation resultReservation = this.reservationService.addReservationExtension(reservation1);
@@ -287,7 +288,7 @@ public class ReservationTest {
         this.reservationService.setReservationRepository(reservationMockRepository);
 
         //when
-        Mockito.when(reservationMockRepository.getById(reservation1.getId())).thenReturn(reservation1);
+        Mockito.when(reservationMockRepository.findById(reservation1.getId())).thenReturn(Optional.of(reservation1));
         Mockito.when(reservationMockRepository.save(reservation1)).thenReturn(reservation1);
 
         Reservation resultReservation = this.reservationService.addReturn(reservation1);
@@ -314,72 +315,84 @@ public class ReservationTest {
     }
 
     @Test
+    @Transactional
     void addReservationRepository() {
         // with
+        reservationRepository.deleteAll();
+        rolRepository.deleteAll();
+        customerRepository.deleteAll();
+        bookRepository.deleteAll();
         RolModel rol = new RolModel();
-        rol.setId(1);
         rol.setRol("Test Rol");
 
         Customer customer = new Customer();
-        customer.setId(1);
         customer.setName("Test User");
         customer.setUsername("test_user");
         customer.setRol(rol);
 
         Book book = new Book();
-        book.setBook_id(1);
         book.setName("Test Book");
 
         Reservation reservation = new Reservation();
-        reservation.setId(1);
         reservation.setBook(book);
         reservation.setCustomer(customer);
 
         // when
         rolRepository.save(rol);
+        customer.setRol(rolRepository.findAll().iterator().next());;
         customerRepository.save(customer);
         bookRepository.save(book);
+        reservation.setCustomer(customerRepository.findAll().iterator().next());
+        reservation.setBook(bookRepository.findAll().iterator().next());
         reservationRepository.save(reservation);
 
-        Reservation resultReservation = reservationRepository.getById(reservation.getId());
+        Optional<Reservation> resultOptional = reservationRepository.findById(reservation.getId());
+        Reservation resultReservation = resultOptional.orElse(null);
 
         // then
         MatcherAssert.assertThat(resultReservation.getId(), Matchers.equalTo(reservation.getId()));
+        MatcherAssert.assertThat(resultReservation.getBook().getName(), Matchers.equalTo(reservation.getBook().getName()));
+        MatcherAssert.assertThat(resultReservation.getCustomer().getName(), Matchers.equalTo(reservation.getCustomer().getName()));
     }
 
     @Test
+    @Transactional
     void deleteReservationRepository() {
         // with
+        reservationRepository.deleteAll();
+        reservationRepository.deleteAll();
+        rolRepository.deleteAll();
+        customerRepository.deleteAll();
+        bookRepository.deleteAll();
         RolModel rol = new RolModel();
-        rol.setId(1);
         rol.setRol("Test Rol");
 
         Customer customer = new Customer();
-        customer.setId(1);
         customer.setName("Test User");
         customer.setUsername("test_user");
         customer.setRol(rol);
 
         Book book = new Book();
-        book.setBook_id(1);
         book.setName("Test Book");
 
         Reservation reservation = new Reservation();
-        reservation.setId(1);
         reservation.setBook(book);
         reservation.setCustomer(customer);
 
         // when
         rolRepository.save(rol);
+        customer.setRol(rolRepository.findAll().iterator().next());;
         customerRepository.save(customer);
         bookRepository.save(book);
+        reservation.setCustomer(customerRepository.findAll().iterator().next());
+        reservation.setBook(bookRepository.findAll().iterator().next());
         reservationRepository.save(reservation);
 
         reservationRepository.delete(reservation);
 
-        Reservation resultReservation = reservationRepository.getById(reservation.getId());
+        Optional<Reservation> resultOptional = reservationRepository.findById(reservation.getId());
+        Reservation resultReservation = resultOptional.orElse(null);
 
-        System.out.println(resultReservation);
         // then
         MatcherAssert.assertThat(resultReservation, Matchers.is(Matchers.nullValue()));
     }

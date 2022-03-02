@@ -60,7 +60,11 @@ public class ReservationService {
     }
 
     public Reservation addReservationExtension(Reservation reservation){
-        Reservation reservationToUpdate = reservationRepository.getById(reservation.getId());
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservation.getId());
+        Reservation reservationToUpdate = optionalReservation.orElse(null);
+        if (reservationToUpdate == null) {
+            throw new IllegalStateException("Reservation doesn't exist.");
+        }
         if (reservationToUpdate.getStatus() != 0 && reservationToUpdate.getStatus() != 1) {
             throw new IllegalStateException("You can't ask for an extension to this reservation.");
         }
@@ -73,7 +77,8 @@ public class ReservationService {
     }
 
     public Reservation addReturn(Reservation reservation) {
-        Reservation reservationToUpdate = reservationRepository.getById(reservation.getId());
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservation.getId());
+        Reservation reservationToUpdate = optionalReservation.orElse(null);
         if (reservationToUpdate.getStatus() == 4) {
             throw new IllegalStateException("This book has been returned.");
         }
