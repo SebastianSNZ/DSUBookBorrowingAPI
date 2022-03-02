@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,8 +14,8 @@ public class CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
-    public ArrayList<Customer> getCustomer() {
-        return (ArrayList<Customer>) customerRepository.findAll();
+    public List<Customer> getCustomer() {
+        return customerRepository.findAll();
     }
 
     public Customer setCustomer(Customer customer) {
