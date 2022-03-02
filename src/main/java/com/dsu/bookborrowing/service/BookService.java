@@ -51,6 +51,16 @@ public class BookService {
         return true;
     }
 
+    public void updateBookByDeletingReservation(Integer id) {
+        Optional<Book> bookOptional = getBookById(id);
+        if (bookOptional.isEmpty()) {
+            return;
+        }
+        Book book = bookOptional.get();
+        book.setQuantity(book.getQuantity() + 1);
+        bookRepository.save(book);
+    }
+
 
 
     public boolean deleteBook(Integer id) {

@@ -79,6 +79,7 @@ public class ReservationService {
         }
         reservationToUpdate.setStatus(4);
         reservationToUpdate.setReturnDate(LocalDate.now());
+        bookService.updateBookByDeletingReservation(reservation.getBook().getBook_id());
         return reservationRepository.save(reservationToUpdate);
     }
 
