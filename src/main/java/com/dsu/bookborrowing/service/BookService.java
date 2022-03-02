@@ -4,6 +4,7 @@ import com.dsu.bookborrowing.DTO.BookDTO;
 import com.dsu.bookborrowing.DTO.ReservationDTO;
 import com.dsu.bookborrowing.entity.Book;
 import com.dsu.bookborrowing.repository.BookRepository;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
+@Setter
 public class BookService {
 
     @Autowired

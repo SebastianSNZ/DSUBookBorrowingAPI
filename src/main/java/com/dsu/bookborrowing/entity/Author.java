@@ -36,6 +36,7 @@ public class Author {
 
 
     public Author(AuthorDTO authorDTO){
+        author_id = 0;
         name = authorDTO.getName();
         lastName = authorDTO.getLastName();
         direction = authorDTO.getDirection();

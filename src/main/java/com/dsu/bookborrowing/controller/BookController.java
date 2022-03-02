@@ -9,6 +9,8 @@ import com.dsu.bookborrowing.entity.Book;
 import com.dsu.bookborrowing.entity.Customer;
 import com.dsu.bookborrowing.service.BookService;
 import io.swagger.annotations.Api;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
@@ -22,57 +24,66 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/v1/book")
 
+@Slf4j
 @Api(value = "API Rest BOOK")
 @CrossOrigin(origins = "*")
+@Setter
 public class BookController {
-    private static final Logger logger = BookBorrowingApplication.logger;
 
     @Autowired
     BookService bookService;
 
     @GetMapping
     public ArrayList<Book> getBooks() {
-        logger.info("entered to getBooks");
+        log.info("entered to getBooks");
 
         return bookService.getBooks();
     }
 
     @PostMapping
-    public Book setBook(@RequestBody BookDTO book) {
-        logger.info("Creating a new book");
-        return bookService.setBook(new Book(book));
+    public BookDTO setBook(@RequestBody BookDTO book) {
+        log.info("Creating a new book");
+        return converToDTO( bookService.setBook( new Book(book)));
     }
 
     @GetMapping(path = "/{id}")
     public Optional<Book> getById(@PathVariable("id") Integer id) {
-        logger.info("Searching a book by id");
+        log.info("Searching a book by id");
         return bookService.getById(id);
     }
 
 
     @DeleteMapping(path = "/{id}")
     public String deleteById(@PathVariable("id") Integer id) {
-        logger.info("Trying to delete the book " + id);
+        log.info("Trying to delete the book " + id);
         boolean ok = bookService.deleteBook(id);
         if (ok) {
-            logger.info("Book with id " + id + " was removed");
+           log.info("Book with id " + id + " was removed");
             return "Book with id  " + id + " was removed";
         } else {
-            logger.warn("Book with id " + id + " could not removed.");
+            log.warn("Book with id " + id + " could not removed.");
             return "Book with id " + id + " could not removed";
         }
     }
 
     @GetMapping(path = "/bookDTO")
     public ArrayList<BookDTO> getBookDTO() {
-        logger.info("Getting books but without id");
+        log.info("Getting books but without id");
         return bookService.getBooksDTO();
     }
 
     @PutMapping
     public Book updateBook(@RequestBody Book book) {
-        logger.info("updating the book with id " + book.getBook_id()) ;
+        log.info("updating the book with id " + book.getBook_id()) ;
         return bookService.updateBook(book);
     }
 
+
+    public BookDTO converToDTO(Book bk){
+        ModelMapper modelMapper = new ModelMapper();
+        if(!modelMapper.getConfiguration().getMatchingStrategy().equals(MatchingStrategies.LOOSE)){
+            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        }
+        return modelMapper.map(bk, BookDTO.class);
+    }
 }
