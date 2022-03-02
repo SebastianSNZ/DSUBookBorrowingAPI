@@ -3,6 +3,7 @@ package com.dsu.bookborrowing.service;
 import com.dsu.bookborrowing.entity.Book;
 import com.dsu.bookborrowing.entity.Customer;
 import com.dsu.bookborrowing.entity.Reservation;
+import com.dsu.bookborrowing.exception.BadRequestException;
 import com.dsu.bookborrowing.repository.ReservationRepository;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,30 +43,34 @@ public class ReservationService {
         reservation.setCustomer(customer.orElse(null));
         reservation.setBook(book.orElse(null));
         if (reservation.getCustomer() == null || reservation.getBook() == null) {
-            throw new IllegalStateException("You have to provide a valid book or customer id.");
+            throw new BadRequestException("You have to provide a valid book or customer id.");
         }
         List<Reservation> customerReservations;
         customerReservations = reservationRepository.findByCustomerIdAndStatusNot(reservation.getCustomer().getId(), 4);
         if (customerReservations.size() > 2) {
-            throw new IllegalStateException("Customer doesn't have any reservations available.");
+            throw new BadRequestException("Customer doesn't have any reservations available.");
         }
         if (!bookService.updateBookByAddingReservation(reservation.getBook().getBook_id())) {
-            throw new IllegalStateException("Book is not available.");
+            throw new BadRequestException("Book is not available.");
         }
         if (!reservationEstimatedDayIsValid(reservation.getReservationDate(), reservation.getEstimatedDate())) {
-            throw new IllegalStateException("Estimated date is not valid.");
+            throw new BadRequestException("Estimated date is not valid.");
         }
 
         return reservationRepository.save(reservation);
     }
 
     public Reservation addReservationExtension(Reservation reservation){
-        Reservation reservationToUpdate = reservationRepository.getById(reservation.getId());
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservation.getId());
+        Reservation reservationToUpdate = optionalReservation.orElse(null);
+        if (reservationToUpdate == null) {
+            throw new BadRequestException("Reservation doesn't exist.");
+        }
         if (reservationToUpdate.getStatus() != 0 && reservationToUpdate.getStatus() != 1) {
-            throw new IllegalStateException("You can't ask for an extension to this reservation.");
+            throw new BadRequestException("You can't ask for an extension to this reservation.");
         }
         if (!reservationEstimatedDayIsValid(reservationToUpdate.getEstimatedDate(), reservation.getEstimatedDate())) {
-            throw new IllegalStateException("New estimated date is not valid.");
+            throw new BadRequestException("New estimated date is not valid.");
         }
         reservationToUpdate.setStatus(reservationToUpdate.getStatus() + 1);
         reservationToUpdate.setEstimatedDate(reservation.getEstimatedDate());
@@ -73,13 +78,14 @@ public class ReservationService {
     }
 
     public Reservation addReturn(Reservation reservation) {
-        Reservation reservationToUpdate = reservationRepository.getById(reservation.getId());
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservation.getId());
+        Reservation reservationToUpdate = optionalReservation.orElse(null);
         if (reservationToUpdate.getStatus() == 4) {
-            throw new IllegalStateException("This book has been returned.");
+            throw new BadRequestException("This book has been returned.");
         }
         reservationToUpdate.setStatus(4);
         reservationToUpdate.setReturnDate(LocalDate.now());
-        bookService.updateBookByDeletingReservation(reservation.getBook().getBook_id());
+        bookService.updateBookByDeletingReservation(reservationToUpdate.getBook().getBook_id());
         return reservationRepository.save(reservationToUpdate);
     }
 
