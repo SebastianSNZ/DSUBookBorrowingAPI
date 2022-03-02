@@ -35,13 +35,4 @@ public class Reservation {
     private Double penalty = 0.0;
     private Integer status = 0;
 
-
-    public Reservation(ReservationDTO reservationDTO) {
-        this.setId(reservationDTO.getId());
-        this.setBook(new Book());
-        this.getBook().setBook_id(reservationDTO.getBookId());
-        this.setCustomer(new Customer());
-        this.getCustomer().setId(reservationDTO.getCustomerId());
-        this.setEstimatedDate(reservationDTO.getEstimatedDate());
-    }
 }
