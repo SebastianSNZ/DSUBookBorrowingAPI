@@ -2,21 +2,18 @@ package com.dsu.bookborrowing.controller;
 
 import com.dsu.bookborrowing.DTO.AuthorDTO;
 import com.dsu.bookborrowing.DTO.BookDTO;
-import com.dsu.bookborrowing.entity.*;
+import com.dsu.bookborrowing.entity.Author;
+import com.dsu.bookborrowing.entity.Author_book;
+import com.dsu.bookborrowing.entity.Author_book_keys;
+import com.dsu.bookborrowing.entity.Book;
 import com.dsu.bookborrowing.service.AuthorService;
 import com.dsu.bookborrowing.service.Author_bookService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.Authorization;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import com.dsu.bookborrowing.entity.Author;
-import com.dsu.bookborrowing.entity.Author_book;
-import com.dsu.bookborrowing.entity.Book;
-import com.dsu.bookborrowing.service.Author_bookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,12 +22,10 @@ import java.util.ArrayList;
 @RequestMapping("/v1/authorBook")
 @Slf4j
 @Api(value = "API Rest AuthorBook")
-@CrossOrigin(origins = "*")
 @Setter
 public class Author_bookController {
     @Autowired
     Author_bookService author_bookService;
-
 
     @Autowired
     AuthorService authorService;
@@ -60,13 +55,9 @@ public class Author_bookController {
             arrResp.add((author_book.getAuthor()));
         return arrResp;
 
-    @CrossOrigin
-    @GetMapping("/AuthorsByBook")
-    ArrayList<AuthorDTO> getByBook(@RequestParam("book") Integer id) {
-
-
     }
 
+    @CrossOrigin
     @PostMapping("/delete")
     public boolean deleteAuthorBook(@RequestBody Author_book_keys key) {
         log.info("Deleting an author_book");
@@ -85,11 +76,6 @@ public class Author_bookController {
 
         arrTodos.removeAll(arrEstan);
         return arrTodos;
-
-    @CrossOrigin
-    @GetMapping("/booksByAuthor")
-    ArrayList<BookDTO> getByAuthor(@RequestParam("author") Integer id) {
-        return author_bookService.getBooksByAuthor(new Author(id, ""));
     }
 
     @CrossOrigin
@@ -146,5 +132,3 @@ public class Author_bookController {
 
 
 }
-
-

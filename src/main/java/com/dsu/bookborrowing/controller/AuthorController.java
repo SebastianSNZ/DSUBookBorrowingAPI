@@ -36,13 +36,6 @@ public class AuthorController {
         return authorService.getAuthors();
     }
 
-
-    @CrossOrigin
-    @PostMapping
-    public Author setAuthor(@RequestBody AuthorDTO author) {
-        return authorService.setAuthor(new Author(author));
-    }
-
     @CrossOrigin
     @GetMapping(path = "/{id}")
     public Optional<Author> getById(@PathVariable("id") Integer id) {
