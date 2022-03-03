@@ -4,13 +4,13 @@
 
 Diagram made using draw.io.
 
-![ER Diagram](https://github.com/SebastianSNZ/DSUBookBorrowingAPI/blob/main/ERDiagram.png?raw=true)
+![ER Diagram](https://github.com/SebastianSNZ/DSUBookBorrowingAPI/blob/main/img/ERDiagram.png?raw=true)
 
 ## UML State Diagram
 
 Diagram made using draw.io.
 
-![UML State Diagram](https://github.com/SebastianSNZ/DSUBookBorrowingAPI/blob/main/StateDiagram.png?raw=true)
+![UML State Diagram](https://github.com/SebastianSNZ/DSUBookBorrowingAPI/blob/main/img/StateDiagram.png?raw=true)
 
 ## Reservations Service
 
