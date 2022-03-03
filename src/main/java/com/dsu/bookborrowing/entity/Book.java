@@ -26,6 +26,7 @@ public class Book {
     private Integer quantity;
 
     public Book(BookDTO bookDTO) {
+        book_id = 0;
         name = bookDTO.getName();
         category = bookDTO.getCategory();
         quantity = bookDTO.getQuantity();
