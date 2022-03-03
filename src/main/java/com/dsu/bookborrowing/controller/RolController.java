@@ -13,11 +13,13 @@ public class RolController {
     @Autowired
     RolService rolService;
 
+    @CrossOrigin
     @GetMapping()
     public ArrayList<RolModel> getRol(){
         return  rolService.getRol();
     }
 
+    @CrossOrigin
     @PostMapping
     public  RolModel setRol(@RequestBody RolModel rol){
         return  rolService.setRol(rol);

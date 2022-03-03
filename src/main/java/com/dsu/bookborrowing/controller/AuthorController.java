@@ -28,12 +28,22 @@ public class AuthorController {
     @Autowired
     private ModelMapper modelMapper;
 
+
+    @CrossOrigin
     @GetMapping
     public ArrayList<Author> getAuthor() {
         log.info("Getting the authors list");
         return authorService.getAuthors();
     }
 
+
+    @CrossOrigin
+    @PostMapping
+    public Author setAuthor(@RequestBody AuthorDTO author) {
+        return authorService.setAuthor(new Author(author));
+    }
+
+    @CrossOrigin
     @GetMapping(path = "/{id}")
     public Optional<Author> getById(@PathVariable("id") Integer id) {
         log.info("Searching the author with id " + id);
@@ -41,6 +51,8 @@ public class AuthorController {
         return authorService.getById(id);
     }
 
+
+    @CrossOrigin
     @GetMapping(path = "/onlyNames")
     public ArrayList<AuthorDTO> getAuthorNames() {
 
@@ -48,12 +60,14 @@ public class AuthorController {
         return authorService.getAuthorsNames();
     }
 
+    @CrossOrigin
     @PostMapping
     public AuthorDTO setAuthor(@RequestBody AuthorDTO author) {
         log.info("Adding a new author");
         return convertToDTO(authorService.setAuthor(new Author(author)));
     }
 
+    @CrossOrigin
     @DeleteMapping(path = "/{id}")
     public String deleteById(@PathVariable("id") Integer id) {
         log.info("deleting the author  with id " + id);
@@ -67,7 +81,7 @@ public class AuthorController {
         }
     }
 
-
+    @CrossOrigin
     @PutMapping
     public Author updateAuthor(@RequestBody Author author) {
         return authorService.updateAuthor(author);

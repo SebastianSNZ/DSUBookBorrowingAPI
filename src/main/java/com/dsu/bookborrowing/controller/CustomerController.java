@@ -20,26 +20,31 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @CrossOrigin
     @GetMapping()
     public List<Customer> getCustomer(){
         return customerService.getCustomer();
     }
 
+    @CrossOrigin
     @PostMapping
     public Customer setCustomer(@RequestBody @Valid Customer customer){
         return  customerService.setCustomer(customer);
     }
 
+    @CrossOrigin
     @GetMapping(path = "/{id}")
     public Optional<Customer> getById(@PathVariable("id") Integer id){
         return  customerService.getById(id);
     }
 
+    @CrossOrigin
     @GetMapping("/query")
     ArrayList<Customer> getByRol(@RequestParam("rol") Integer id){
         return customerService.getByRol(id);
     }
 
+    @CrossOrigin
     @DeleteMapping(path = "/{id}")
     public String deleteById(@PathVariable("id") Integer id){
         boolean ok = customerService.deleteCustomer(id);
@@ -50,6 +55,7 @@ public class CustomerController {
         }
     }
 
+    @CrossOrigin
     @PutMapping
     public  Customer updateCustomer(@RequestBody Customer customer){
         return  customerService.updateCustomer(customer);

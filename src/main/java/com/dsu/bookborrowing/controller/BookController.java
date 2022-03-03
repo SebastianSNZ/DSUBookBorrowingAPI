@@ -4,9 +4,7 @@ package com.dsu.bookborrowing.controller;
 import com.dsu.bookborrowing.BookBorrowingApplication;
 import com.dsu.bookborrowing.DTO.AuthorDTO;
 import com.dsu.bookborrowing.DTO.BookDTO;
-import com.dsu.bookborrowing.entity.Author;
 import com.dsu.bookborrowing.entity.Book;
-import com.dsu.bookborrowing.entity.Customer;
 import com.dsu.bookborrowing.service.BookService;
 import io.swagger.annotations.Api;
 import lombok.Setter;
@@ -14,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +30,7 @@ public class BookController {
     @Autowired
     BookService bookService;
 
+    @CrossOrigin
     @GetMapping
     public ArrayList<Book> getBooks() {
         log.info("entered to getBooks");
@@ -40,19 +38,21 @@ public class BookController {
         return bookService.getBooks();
     }
 
+    @CrossOrigin
     @PostMapping
     public BookDTO setBook(@RequestBody BookDTO book) {
         log.info("Creating a new book");
         return converToDTO( bookService.setBook( new Book(book)));
     }
 
+    @CrossOrigin
     @GetMapping(path = "/{id}")
     public Optional<Book> getById(@PathVariable("id") Integer id) {
         log.info("Searching a book by id");
         return bookService.getById(id);
     }
 
-
+    @CrossOrigin
     @DeleteMapping(path = "/{id}")
     public String deleteById(@PathVariable("id") Integer id) {
         log.info("Trying to delete the book " + id);
@@ -66,12 +66,14 @@ public class BookController {
         }
     }
 
+    @CrossOrigin
     @GetMapping(path = "/bookDTO")
     public ArrayList<BookDTO> getBookDTO() {
         log.info("Getting books but without id");
         return bookService.getBooksDTO();
     }
 
+    @CrossOrigin
     @PutMapping
     public Book updateBook(@RequestBody Book book) {
         log.info("updating the book with id " + book.getBook_id()) ;
