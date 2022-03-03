@@ -8,6 +8,7 @@ import com.dsu.bookborrowing.service.Author_bookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.Authorization;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/authorBook")
-
+@Slf4j
 @Api(value = "API Rest AuthorBook")
 @CrossOrigin(origins = "*")
 @Setter
@@ -35,17 +36,21 @@ public class Author_bookController {
 
     @GetMapping
     public ArrayList<Author_book> getAuthor_books() {
+
+        log.info("Getting all authors_books");
         return author_bookService.getAuthorsBook();
     }
 
     @PostMapping
     public Author_book setAuthorBook(@RequestBody Author_book author_book) {
+        log.info("Saving a new author_book");
         return author_bookService.setAuthorBook(author_book);
     }
 
     @GetMapping("/AuthorsByBookWithID/{id}")
     public ArrayList<Author> getAuthorsByBookWithId(@PathVariable("id") Integer id) {
-              ArrayList<Author_book> arrAB = author_bookService.getAuthorsByBook(id);
+        log.info("Getting the authors who work in the book with id " + id);
+        ArrayList<Author_book> arrAB = author_bookService.getAuthorsByBook(id);
         ArrayList<Author> arrResp = new ArrayList<>();
         for (Author_book author_book : arrAB)
             arrResp.add((author_book.getAuthor()));
@@ -54,14 +59,15 @@ public class Author_bookController {
     }
 
     @PostMapping("/delete")
-    public boolean deleteAuthorBook(@RequestBody Author_book_keys key){
+    public boolean deleteAuthorBook(@RequestBody Author_book_keys key) {
+        log.info("Deleting an author_book");
         return author_bookService.deleteAuthorBook(key);
     }
 
 
-
     @GetMapping("/AuthorsWhoAreNotIn/{id}")
     public ArrayList<Author> getAuthorsDontWorkInABook(@PathVariable("id") Integer id) {
+        log.info("Getting the authors who don't work in the book with id " + id);
         ArrayList<Author> arrTodos = authorService.getAuthors();
         ArrayList<Author> arrEstan = new ArrayList<>();
         ArrayList<Author_book> arrAB = author_bookService.getAuthorsByBook(id);
@@ -75,6 +81,7 @@ public class Author_bookController {
 
     @GetMapping("/AuthorsByBook/{id}")
     public ArrayList<AuthorDTO> getAuthorsByBook(@PathVariable("id") Integer id) {
+        log.info("Getting the authorsDTO (authors without the ids) who work in the book with id " + id);
         ArrayList<Author_book> arrAB = author_bookService.getAuthorsByBook(id);
         ArrayList<AuthorDTO> arrResp = new ArrayList<>(arrAB.size());
         for (Author_book author_book : arrAB)
@@ -85,6 +92,7 @@ public class Author_bookController {
 
     @GetMapping("/booksByAuthorWithID/{id}")
     public ArrayList<Book> getBooksByAuthorWithId(@PathVariable("id") Integer id) {
+        log.info("Getting books written by the author with id " + id);
         ArrayList<Author_book> arrAB = author_bookService.getBooksByAuthor(id);
         ArrayList<Book> arrResp = new ArrayList<>(arrAB.size());
         for (Author_book author_book : arrAB)
@@ -95,6 +103,7 @@ public class Author_bookController {
 
     @GetMapping("/booksByAuthor/{id}")
     public ArrayList<BookDTO> getBooksByAuthor(@PathVariable("id") Integer id) {
+        log.info("Getting the booksDTO (books without id) written by the author with id " + id);
         ArrayList<Author_book> arrAB = author_bookService.getBooksByAuthor(id);
         ArrayList<BookDTO> arrResp = new ArrayList<>(arrAB.size());
         for (Author_book author_book : arrAB)

@@ -30,30 +30,39 @@ public class AuthorController {
 
     @GetMapping
     public ArrayList<Author> getAuthor() {
+        log.info("Getting the authors list");
         return authorService.getAuthors();
     }
 
     @GetMapping(path = "/{id}")
     public Optional<Author> getById(@PathVariable("id") Integer id) {
+        log.info("Searching the author with id " + id);
+
         return authorService.getById(id);
     }
 
     @GetMapping(path = "/onlyNames")
     public ArrayList<AuthorDTO> getAuthorNames() {
+
+        log.info("Getting the AuthorDTO list (Authors without id) ");
         return authorService.getAuthorsNames();
     }
 
     @PostMapping
     public AuthorDTO setAuthor(@RequestBody AuthorDTO author) {
+        log.info("Adding a new author");
         return convertToDTO(authorService.setAuthor(new Author(author)));
     }
 
     @DeleteMapping(path = "/{id}")
     public String deleteById(@PathVariable("id") Integer id) {
+        log.info("deleting the author  with id " + id);
         boolean ok = authorService.deleteAuthor(id);
         if (ok) {
+            log.info("Author with id  " + id + " was removed.");
             return "Author with id  " + id + " was removed.";
         } else {
+            log.info("Author with id  " + id + " could not removed.");
             return "Author with id  " + id + " could not removed.";
         }
     }
