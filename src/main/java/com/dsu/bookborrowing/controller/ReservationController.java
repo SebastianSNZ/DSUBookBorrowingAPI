@@ -25,6 +25,7 @@ public class ReservationController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @CrossOrigin
     @GetMapping
     public List<ReservationDTO> getReservations() {
         log.info("Getting all reservations.");
@@ -34,24 +35,28 @@ public class ReservationController {
                 .collect(Collectors.toList());
     }
 
+    @CrossOrigin
     @PostMapping
     public ReservationDTO addReservation(@RequestBody Reservation reservation) {
         log.info("Adding a new reservation.");
         return convertToDTO(reservationService.addNewReservation(reservation));
     }
 
+    @CrossOrigin
     @PutMapping("/extension")
     public ReservationDTO addReservationExtension(@RequestBody Reservation reservation) {
         log.info("Adding an extension to a reservation.");
         return convertToDTO(reservationService.addReservationExtension(reservation));
     }
 
+    @CrossOrigin
     @PutMapping("/return")
     public ReservationDTO addReservationReturn(@RequestBody Reservation reservation) {
         log.info("Returning a book to a reservation.");
         return convertToDTO(reservationService.addReturn(reservation));
     }
 
+    @CrossOrigin
     @DeleteMapping()
     public  ReservationDTO deleteReservation(@RequestBody Reservation reservation) {
         log.info("Deleting a reservation.");
