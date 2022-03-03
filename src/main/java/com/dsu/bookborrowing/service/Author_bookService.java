@@ -5,17 +5,19 @@ import com.dsu.bookborrowing.DTO.BookDTO;
 import com.dsu.bookborrowing.entity.*;
 import com.dsu.bookborrowing.repository.AuthorRepository;
 import com.dsu.bookborrowing.repository.Author_bookRepository;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@Setter
 public class Author_bookService {
     @Autowired
     Author_bookRepository author_bookRepository;
 
-    public ArrayList<Author_book> getAuthors() {
+    public ArrayList<Author_book> getAuthorsBook() {
         return (ArrayList<Author_book>) author_bookRepository.findAll();
     }
 
@@ -24,7 +26,9 @@ public class Author_bookService {
     }
 
 
-    public ArrayList<Author_book> getAuthorsByBook(Book bk) {
+    public ArrayList<Author_book> getAuthorsByBook(int id) {
+        Book bk = new Book();
+        bk.setBook_id(id);
        return author_bookRepository.findAuthorsByBook(bk);
 
     }
@@ -39,8 +43,10 @@ public class Author_bookService {
     }
 
 
-    public ArrayList<Author_book> getBooksByAuthor(Author auth) {
-        return author_bookRepository.findBooksByAuthor(auth);
+    public ArrayList<Author_book> getBooksByAuthor(Integer id) {
+        Author au = new Author();
+        au.setAuthor_id(id);
+        return author_bookRepository.findBooksByAuthor(au);
     }
 
 }

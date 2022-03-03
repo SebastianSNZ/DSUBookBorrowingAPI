@@ -7,6 +7,7 @@ import com.dsu.bookborrowing.service.AuthorService;
 import com.dsu.bookborrowing.service.Author_bookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.Authorization;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Api(value = "API Rest AuthorBook")
 @CrossOrigin(origins = "*")
+@Setter
 public class Author_bookController {
     @Autowired
     Author_bookService author_bookService;
@@ -33,19 +35,17 @@ public class Author_bookController {
 
     @GetMapping
     public ArrayList<Author_book> getAuthor_books() {
-        return author_bookService.getAuthors();
+        return author_bookService.getAuthorsBook();
     }
 
     @PostMapping
-    public Author_book setAuthor(@RequestBody Author_book author_book) {
+    public Author_book setAuthorBook(@RequestBody Author_book author_book) {
         return author_bookService.setAuthorBook(author_book);
     }
 
     @GetMapping("/AuthorsByBookWithID/{id}")
-    public ArrayList<Author> getByBookWithId(@PathVariable("id") Integer id) {
-        Book bk = new Book();
-        bk.setBook_id(id);
-        ArrayList<Author_book> arrAB = author_bookService.getAuthorsByBook(bk);
+    public ArrayList<Author> getAuthorsByBookWithId(@PathVariable("id") Integer id) {
+              ArrayList<Author_book> arrAB = author_bookService.getAuthorsByBook(id);
         ArrayList<Author> arrResp = new ArrayList<>();
         for (Author_book author_book : arrAB)
             arrResp.add((author_book.getAuthor()));
@@ -61,12 +61,10 @@ public class Author_bookController {
 
 
     @GetMapping("/AuthorsWhoAreNotIn/{id}")
-    public ArrayList<Author> getAuthorsNByBoook(@PathVariable("id") Integer id) {
+    public ArrayList<Author> getAuthorsDontWorkInABook(@PathVariable("id") Integer id) {
         ArrayList<Author> arrTodos = authorService.getAuthors();
-        Book bk = new Book();
-        bk.setBook_id(id);
         ArrayList<Author> arrEstan = new ArrayList<>();
-        ArrayList<Author_book> arrAB = author_bookService.getAuthorsByBook(bk);
+        ArrayList<Author_book> arrAB = author_bookService.getAuthorsByBook(id);
         for (Author_book author_book : arrAB)
             arrEstan.add(author_book.getAuthor());
 
@@ -76,10 +74,8 @@ public class Author_bookController {
 
 
     @GetMapping("/AuthorsByBook/{id}")
-    public ArrayList<AuthorDTO> getByBook(@PathVariable("id") Integer id) {
-        Book bk = new Book();
-        bk.setBook_id(id);
-        ArrayList<Author_book> arrAB = author_bookService.getAuthorsByBook(bk);
+    public ArrayList<AuthorDTO> getAuthorsByBook(@PathVariable("id") Integer id) {
+        ArrayList<Author_book> arrAB = author_bookService.getAuthorsByBook(id);
         ArrayList<AuthorDTO> arrResp = new ArrayList<>(arrAB.size());
         for (Author_book author_book : arrAB)
             arrResp.add(convertAuthorToDTO(author_book.getAuthor()));
@@ -88,10 +84,8 @@ public class Author_bookController {
 
 
     @GetMapping("/booksByAuthorWithID/{id}")
-    public ArrayList<Book> getByAuthorWithId(@PathVariable("id") Integer id) {
-        Author au = new Author();
-        au.setAuthor_id(id);
-        ArrayList<Author_book> arrAB = author_bookService.getBooksByAuthor(au);
+    public ArrayList<Book> getBooksByAuthorWithId(@PathVariable("id") Integer id) {
+        ArrayList<Author_book> arrAB = author_bookService.getBooksByAuthor(id);
         ArrayList<Book> arrResp = new ArrayList<>(arrAB.size());
         for (Author_book author_book : arrAB)
             arrResp.add((author_book.getBook()));
@@ -100,10 +94,8 @@ public class Author_bookController {
 
 
     @GetMapping("/booksByAuthor/{id}")
-    ArrayList<BookDTO> getByAuthor(@PathVariable("id") Integer id) {
-        Author au = new Author();
-        au.setAuthor_id(id);
-        ArrayList<Author_book> arrAB = author_bookService.getBooksByAuthor(au);
+    public ArrayList<BookDTO> getBooksByAuthor(@PathVariable("id") Integer id) {
+        ArrayList<Author_book> arrAB = author_bookService.getBooksByAuthor(id);
         ArrayList<BookDTO> arrResp = new ArrayList<>(arrAB.size());
         for (Author_book author_book : arrAB)
             arrResp.add(converBookToDTO(author_book.getBook()));
